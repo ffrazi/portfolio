@@ -9,9 +9,9 @@ export default function About() {
   name: "Aneesa Zainab Fazulullah",
   title: "CS Undergrad & Builder",
   skills: [
-    "Python", "Java", "C++", "C", 
+    "Python", "Java", 
     "JS", "TS", "FastAPI", "React", 
-    "Next.js", "Docker", "LangChain", 
+    "Django", "Docker", "LangChain", 
     "Spring Boot", "Firebase"
   ],
   passion: "Building secure, intelligent applications."
@@ -38,7 +38,7 @@ export default function About() {
               with rich aesthetics.
             </p>
             <p className="about-bio">
-              My core interests sit at the intersection of AI, Web Development, and Cybersecurity. I love breaking down complex 
+              My core interests sit at the intersection of Artificial Intelligence and machine learning. I love breaking down complex 
               problems, optimization, and creating things that feel responsive and alive.
             </p>
 

@@ -110,12 +110,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       await createUserWithEmailAndPassword(auth, email, password);
       return { success: true };
-    } catch (error: unknown) {
-      const err = error as { code?: string };
-      if (err.code === 'auth/email-already-in-use') {
+    } catch (error: any) {
+      console.error('Sign up error:', error);
+      if (error.code === 'auth/email-already-in-use') {
         return { success: false, error: 'An account already exists with this email. Try signing in.' };
       }
-      return { success: false, error: 'Registration failed. Please try again.' };
+      if (error.code === 'auth/weak-password') {
+        return { success: false, error: 'Password should be at least 6 characters.' };
+      }
+      if (error.code === 'auth/operation-not-allowed') {
+        return { success: false, error: 'Email/Password authentication is not enabled in Firebase Console.' };
+      }
+      return { success: false, error: error.message || 'Registration failed. Please try again.' };
     }
   };
 
