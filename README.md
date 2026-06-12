@@ -1,6 +1,6 @@
-# 🌌 Constellation Portfolio
+# 🌌 My Portfolio
 
-Welcome to the Constellation Portfolio, a fully animated, access-controlled web application built to showcase the technical achievements of **Aneesa Zainab Fazulullah**. The project features a premium dark galaxy aesthetic and emphasizes smooth micro-interactions, responsive design, and robust security.
+Welcome to the My Portfolio, a fully animated, access-controlled web application built to showcase my technical achievements. The project features a premium dark galaxy aesthetic and emphasizes smooth micro-interactions, responsive design, and robust security.
 
 ## 🚀 Tech Stack
 
