@@ -33,6 +33,7 @@ interface AllowedEmail {
 
 interface VisitLog {
   id: string;
+  name?: string;
   email: string;
   timestamp: { seconds: number } | null;
   userAgent: string;
@@ -92,7 +93,7 @@ export default function AdminPage() {
     try {
       await setDoc(doc(db, 'allowedEmails', newEmail.trim().toLowerCase()), {
         addedAt: new Date().toISOString(),
-        addedBy: user?.email,
+        addedBy: (user as any)?.email || 'admin',
       });
       setNewEmail('');
       await fetchData();
@@ -254,6 +255,7 @@ export default function AdminPage() {
                 <table className="logs-table">
                   <thead>
                     <tr>
+                      <th>Name</th>
                       <th>Email</th>
                       <th>Timestamp</th>
                       <th>User Agent</th>
@@ -262,6 +264,7 @@ export default function AdminPage() {
                   <tbody>
                     {visitLogs.map((log) => (
                       <tr key={log.id}>
+                        <td>{log.name || 'Anonymous'}</td>
                         <td>{log.email}</td>
                         <td className="timestamp">{formatDate(log.timestamp)}</td>
                         <td className="ua">{log.userAgent?.slice(0, 60)}...</td>

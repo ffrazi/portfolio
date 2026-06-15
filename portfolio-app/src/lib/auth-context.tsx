@@ -4,27 +4,29 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   signOut as firebaseSignOut,
   User,
 } from 'firebase/auth';
 import {
-  doc,
-  getDoc,
-  setDoc,
   collection,
   addDoc,
   serverTimestamp,
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
+export interface GuestUser {
+  name: string;
+  email: string;
+  isGuest: true;
+}
+
 interface AuthContextType {
-  user: User | null;
+  user: User | GuestUser | null;
   loading: boolean;
   isAllowed: boolean;
   isAdmin: boolean;
-  signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  signUp: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  signInGuest: (name: string, email: string) => Promise<{ success: boolean; error?: string }>;
+  signInAdmin: (password: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
 }
 
@@ -32,20 +34,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'aneesazainabf@gmail.com';
 
-async function checkAllowed(email: string): Promise<boolean> {
-  if (email === ADMIN_EMAIL) return true;
-  try {
-    const docRef = doc(db, 'allowedEmails', email);
-    const docSnap = await getDoc(docRef);
-    return docSnap.exists();
-  } catch {
-    return false;
-  }
-}
-
-async function logVisit(email: string) {
+async function logVisit(name: string, email: string) {
   try {
     await addDoc(collection(db, 'visitLogs'), {
+      name,
       email,
       timestamp: serverTimestamp(),
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
@@ -56,22 +48,32 @@ async function logVisit(email: string) {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | GuestUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAllowed, setIsAllowed] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    // Check local storage for guest
+    const guestData = localStorage.getItem('guest_user');
+    let initialGuest: GuestUser | null = null;
+    if (guestData) {
+      try {
+        initialGuest = JSON.parse(guestData);
+      } catch(e) {}
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
-      if (firebaseUser?.email) {
-        const allowed = await checkAllowed(firebaseUser.email);
-        setIsAllowed(allowed);
-        setIsAdmin(firebaseUser.email === ADMIN_EMAIL);
-        if (allowed) {
-          await logVisit(firebaseUser.email);
-        }
+      if (firebaseUser?.email === ADMIN_EMAIL) {
+        setUser(firebaseUser);
+        setIsAllowed(true);
+        setIsAdmin(true);
+      } else if (initialGuest) {
+        setUser(initialGuest);
+        setIsAllowed(true);
+        setIsAdmin(false);
       } else {
+        setUser(null);
         setIsAllowed(false);
         setIsAdmin(false);
       }
@@ -81,58 +83,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const signInGuest = async (name: string, email: string) => {
     try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      const allowed = await checkAllowed(result.user.email!);
-      if (!allowed) {
-        await firebaseSignOut(auth);
-        return { success: false, error: 'Access denied. Your email is not authorized.' };
+      if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+         return { success: false, error: 'This is the admin email. Please use the admin login.' };
       }
+      await logVisit(name, email);
+      const guestUser: GuestUser = { name, email, isGuest: true };
+      localStorage.setItem('guest_user', JSON.stringify(guestUser));
+      setUser(guestUser);
+      setIsAllowed(true);
       return { success: true };
-    } catch (error: unknown) {
-      const err = error as { code?: string };
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-        return { success: false, error: 'Invalid credentials. Please check your email and password.' };
-      }
-      if (err.code === 'auth/wrong-password') {
-        return { success: false, error: 'Incorrect password.' };
-      }
-      return { success: false, error: 'Authentication failed. Please try again.' };
+    } catch (error) {
+      return { success: false, error: 'Failed to enter. Please try again.' };
     }
   };
 
-  const signUp = async (email: string, password: string) => {
+  const signInAdmin = async (password: string) => {
     try {
-      const allowed = await checkAllowed(email);
-      if (!allowed) {
-        return { success: false, error: 'Access denied. Your email is not on the authorized list.' };
-      }
-      await createUserWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, ADMIN_EMAIL, password);
       return { success: true };
     } catch (error: any) {
-      console.error('Sign up error:', error);
-      if (error.code === 'auth/email-already-in-use') {
-        return { success: false, error: 'An account already exists with this email. Try signing in.' };
-      }
-      if (error.code === 'auth/weak-password') {
-        return { success: false, error: 'Password should be at least 6 characters.' };
-      }
-      if (error.code === 'auth/operation-not-allowed') {
-        return { success: false, error: 'Email/Password authentication is not enabled in Firebase Console.' };
-      }
-      return { success: false, error: error.message || 'Registration failed. Please try again.' };
+      return { success: false, error: 'Invalid admin credentials.' };
     }
   };
 
   const signOutUser = async () => {
     await firebaseSignOut(auth);
+    localStorage.removeItem('guest_user');
+    setUser(null);
     setIsAllowed(false);
     setIsAdmin(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAllowed, isAdmin, signIn, signUp, signOut: signOutUser }}>
+    <AuthContext.Provider value={{ user, loading, isAllowed, isAdmin, signInGuest, signInAdmin, signOut: signOutUser }}>
       {children}
     </AuthContext.Provider>
   );

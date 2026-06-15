@@ -4,18 +4,19 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Loader2, Lock, Mail, Eye, EyeOff, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Loader2, Lock, Mail, Eye, EyeOff, AlertCircle, User as UserIcon } from 'lucide-react';
 
 export default function LoginPage() {
-  const { user, loading, isAllowed, signIn, signUp } = useAuth();
+  const { user, loading, isAllowed, signInGuest, signInAdmin } = useAuth();
   const router = useRouter();
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [mode, setMode] = useState<'guest' | 'admin'>('guest');
 
   useEffect(() => {
     if (!loading && user && isAllowed) {
@@ -28,9 +29,18 @@ export default function LoginPage() {
     setError('');
     setIsSubmitting(true);
 
-    const result = mode === 'login'
-      ? await signIn(email, password)
-      : await signUp(email, password);
+    let result;
+    if (mode === 'guest') {
+      result = await signInGuest(name, email);
+      if (!result.success && result.error?.includes('admin email')) {
+        setMode('admin');
+        setError('Admin email detected. Please enter your password.');
+        setIsSubmitting(false);
+        return;
+      }
+    } else {
+      result = await signInAdmin(password);
+    }
 
     if (result.success) {
       router.push('/');
@@ -103,13 +113,13 @@ export default function LoginPage() {
         {/* Header */}
         <div className="card-header">
           <div className="lock-icon-wrapper">
-            <Lock size={24} />
+            {mode === 'guest' ? <UserIcon size={24} /> : <Lock size={24} />}
           </div>
-          <h1>{mode === 'login' ? 'Access Portal' : 'Create Account'}</h1>
+          <h1>{mode === 'guest' ? 'Welcome' : 'Admin Portal'}</h1>
           <p className="subtitle">
-            {mode === 'login'
-              ? 'Enter your credentials to view the constellation'
-              : 'Register with an authorized email'
+            {mode === 'guest'
+              ? 'Please sign the guestbook to enter the portfolio'
+              : 'Enter your password to access admin features'
             }
           </p>
         </div>
@@ -129,39 +139,55 @@ export default function LoginPage() {
 
         {/* Form */}
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <Mail size={18} className="input-icon" />
-            <input
-              id="login-email"
-              type="email"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
-          </div>
-
-          <div className="input-group">
-            <Lock size={18} className="input-icon" />
-            <input
-              id="login-password"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-            />
-            <button
-              type="button"
-              className="toggle-password"
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label="Toggle password visibility"
-            >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </div>
+          {mode === 'guest' ? (
+            <>
+              <div className="input-group">
+                <UserIcon size={18} className="input-icon" />
+                <input
+                  id="guest-name"
+                  type="text"
+                  placeholder="Your Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  autoComplete="name"
+                />
+              </div>
+              <div className="input-group">
+                <Mail size={18} className="input-icon" />
+                <input
+                  id="guest-email"
+                  type="email"
+                  placeholder="Email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
+                />
+              </div>
+            </>
+          ) : (
+            <div className="input-group">
+              <Lock size={18} className="input-icon" />
+              <input
+                id="admin-password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Admin Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label="Toggle password visibility"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          )}
 
           <button
             type="submit"
@@ -170,22 +196,21 @@ export default function LoginPage() {
           >
             {isSubmitting ? (
               <Loader2 size={18} className="spin" />
-            ) : mode === 'login' ? (
-              'Enter the Constellation'
+            ) : mode === 'guest' ? (
+              'Enter Portfolio'
             ) : (
-              'Create Account'
+              'Login'
             )}
           </button>
         </form>
 
         {/* Toggle mode */}
         <div className="mode-toggle">
-          <span>{mode === 'login' ? "Don't have an account?" : 'Already have an account?'}</span>
           <button
             type="button"
-            onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }}
+            onClick={() => { setMode(mode === 'guest' ? 'admin' : 'guest'); setError(''); }}
           >
-            {mode === 'login' ? 'Register' : 'Sign In'}
+            {mode === 'guest' ? 'Admin Login' : 'Back to Guest Access'}
           </button>
         </div>
       </motion.div>
@@ -335,20 +360,20 @@ export default function LoginPage() {
           text-align: center;
           margin-top: 1.5rem;
           font-size: 0.85rem;
-          color: var(--text-secondary);
         }
 
         .mode-toggle button {
           background: none;
           border: none;
-          color: var(--accent-purple);
+          color: var(--text-secondary);
           cursor: pointer;
-          font-weight: 600;
           font-size: 0.85rem;
-          margin-left: 0.25rem;
+          opacity: 0.7;
+          transition: opacity 0.2s;
         }
 
         .mode-toggle button:hover {
+          opacity: 1;
           text-decoration: underline;
         }
 
