@@ -17,6 +17,11 @@ export default function Skills() {
       skills: ["Flask", "Django", "FastAPI", "RestfulAPI", "React"],
     },
     {
+      title: "AI, ML & CV",
+      icon: <Cpu size={22} />,
+      skills: ["TensorFlow", "PyTorch", "Keras", "OpenCV", "LangChain", "NLP"],
+    },
+    {
       title: "Database",
       icon: <Database size={22} />,
       skills: ["Firebase", "Docker", "Vercel", "Render", "Sqlite", "Kaggle"],
@@ -65,23 +70,9 @@ export default function Skills() {
       <style jsx>{`
         .skills-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 2rem;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2.5rem;
           margin-top: 1rem;
-        }
-
-        @media (max-width: 900px) {
-          .skills-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-          }
-        }
-
-        @media (max-width: 600px) {
-          .skills-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-          }
         }
 
         .skills-card {
