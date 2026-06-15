@@ -256,22 +256,18 @@ export default function Arena() {
                       <div className="status-dot" style={{ backgroundColor: plat.color, boxShadow: `0 0 10px ${plat.color}` }} />
                     </div>
 
-                    {/* Column 2: Platform Name */}
-                    <div className="col-name">
+                    {/* Column 2: Platform Identity (Name + Username stacked) */}
+                    <div className="col-identity">
                       <span className="platform-name">{plat.name}</span>
-                    </div>
-
-                    {/* Column 3: Username */}
-                    <div className="col-username">
                       <span className="platform-username">{plat.username}</span>
                     </div>
 
-                    {/* Column 4: Badge */}
+                    {/* Column 3: Badge */}
                     <div className="col-badge">
                       <span className="platform-badge">{plat.stats}</span>
                     </div>
 
-                    {/* Column 5: Link Arrow */}
+                    {/* Column 4: Link Arrow */}
                     <div className="col-arrow">
                       <ExternalLink size={16} className="link-arrow" />
                     </div>
@@ -633,9 +629,9 @@ export default function Arena() {
 
         .platform-row-item {
           display: grid;
-          grid-template-columns: 30px 1.5fr 1.5fr 2.5fr 40px;
+          grid-template-columns: 30px 2.2fr 2.5fr 40px;
           align-items: center;
-          padding: 1rem 1.5rem;
+          padding: 0.85rem 1.5rem;
           background: rgba(255, 255, 255, 0.02);
           border: 1px solid rgba(255, 255, 255, 0.05);
           border-radius: 12px;
@@ -664,27 +660,25 @@ export default function Arena() {
           border-radius: 50%;
         }
 
-        .col-name {
+        .col-identity {
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
           overflow: hidden;
-          text-overflow: ellipsis;
         }
 
         .platform-name {
-          font-size: 1.2rem;
+          font-size: 1.15rem;
           font-weight: 800;
           color: var(--text-primary);
-        }
-
-        .col-username {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          padding-right: 0.5rem;
+          line-height: 1.2;
         }
 
         .platform-username {
           font-family: var(--font-mono);
-          font-size: 0.9rem;
+          font-size: 0.8rem;
           color: var(--text-secondary);
+          line-height: 1.2;
         }
 
         .col-badge {
@@ -750,8 +744,8 @@ export default function Arena() {
             justify-content: center;
           }
           .platform-row-item {
-            grid-template-columns: 20px 1.2fr 1fr auto;
-            padding: 0.85rem 1rem;
+            grid-template-columns: 20px 1.5fr auto;
+            padding: 0.75rem 1rem;
             gap: 0.5rem;
           }
           .col-badge {
@@ -761,7 +755,7 @@ export default function Arena() {
             font-size: 1.05rem;
           }
           .platform-username {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
           }
         }
       `}</style>
