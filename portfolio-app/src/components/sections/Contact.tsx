@@ -16,10 +16,31 @@ export default function Contact() {
 
     setStatus('sending');
     try {
+      // 1. Save message to Firestore database
       await addDoc(collection(db, 'contactMessages'), {
         ...formData,
         timestamp: serverTimestamp(),
       });
+
+      // 2. Forward notification to user email using FormSubmit
+      try {
+        await fetch('https://formsubmit.co/ajax/aneesazainabf@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            _subject: `New Portfolio Message from ${formData.name}`
+          })
+        });
+      } catch (emailError) {
+        console.error('Email forwarding error:', emailError);
+      }
+
       setFormData({ name: '', email: '', message: '' });
       setStatus('success');
     } catch (error) {
@@ -52,7 +73,7 @@ export default function Contact() {
   return (
     <section id="contact">
       <div className="container">
-        <h2 className="section-title">Connect with the Orbit</h2>
+        <h2 className="section-title">Connect with Me</h2>
 
         <div className="contact-wrapper">
           {/* Left Side: Connect details */}
