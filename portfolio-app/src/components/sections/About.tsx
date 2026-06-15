@@ -10,17 +10,18 @@ export default function About() {
   title: "CS Undergrad & Builder",
   skills: [
     "Python", "Java", 
-    "JS", "TS", "FastAPI", "React", 
-    "Django", "Docker", "LangChain", 
-    "Spring Boot", "Firebase"
+    "JS", "FastAPI", "React", 
+    "Django", "Flask", "Docker",
+    "LangChain", "Firebase",
+    "Vercel", "Render"
   ],
   passion: "Building secure, intelligent applications."
-};`;
+}`;
 
   return (
     <section id="about">
       <div className="container">
-        <h2 className="section-title">About the Constellation</h2>
+        <h2 className="section-title">About Me</h2>
         
         <div className="about-grid">
           {/* Left Side: Bio & Details */}

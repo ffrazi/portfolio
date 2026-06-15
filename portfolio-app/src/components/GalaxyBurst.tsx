@@ -44,27 +44,27 @@ export default function GalaxyBurst() {
       {/* Supernova Ring Explosion */}
       {(stage === 'burst' || stage === 'reveal') && (
         <>
-          {/* Main expanding ring */}
+          {/* Main expanding ring - stays visible */}
           <motion.div
             className="supernova-ring"
             initial={{ scale: 0, opacity: 1 }}
-            animate={{ scale: [0, 0.5, 3.5], opacity: [1, 0.9, 0] }}
+            animate={{ scale: [0, 0.5, 2.2], opacity: [1, 0.9, 0.35] }}
             transition={{ duration: 1.8, ease: "easeOut" }}
           />
 
-          {/* Second ring - slightly delayed */}
+          {/* Second ring - stays visible */}
           <motion.div
             className="supernova-ring ring-2"
             initial={{ scale: 0, opacity: 0.8 }}
-            animate={{ scale: [0, 0.4, 3], opacity: [0.8, 0.6, 0] }}
+            animate={{ scale: [0, 0.4, 1.6], opacity: [0.8, 0.6, 0.25] }}
             transition={{ duration: 1.6, delay: 0.15, ease: "easeOut" }}
           />
 
-          {/* Third ring - outer glow */}
+          {/* Third ring - stays visible */}
           <motion.div
             className="supernova-ring ring-3"
             initial={{ scale: 0, opacity: 0.5 }}
-            animate={{ scale: [0, 0.3, 2.5], opacity: [0.5, 0.4, 0] }}
+            animate={{ scale: [0, 0.3, 1.1], opacity: [0.5, 0.4, 0.2] }}
             transition={{ duration: 1.4, delay: 0.3, ease: "easeOut" }}
           />
 
@@ -223,34 +223,35 @@ export default function GalaxyBurst() {
         /* Supernova Ring */
         .supernova-ring {
           position: absolute;
-          width: 300px;
-          height: 300px;
+          width: 600px;
+          height: 600px;
           border-radius: 50%;
           border: 3px solid rgba(255, 255, 255, 0.9);
           box-shadow:
-            0 0 30px rgba(255, 255, 255, 0.6),
-            0 0 60px rgba(241, 245, 249, 0.4),
-            0 0 100px rgba(203, 213, 225, 0.3),
-            inset 0 0 30px rgba(255, 255, 255, 0.2);
+            0 0 40px rgba(255, 255, 255, 0.6),
+            0 0 80px rgba(241, 245, 249, 0.4),
+            0 0 120px rgba(203, 213, 225, 0.3),
+            inset 0 0 40px rgba(255, 255, 255, 0.2);
           pointer-events: none;
+          z-index: 1;
         }
 
         .supernova-ring.ring-2 {
-          width: 250px;
-          height: 250px;
+          width: 500px;
+          height: 500px;
           border: 2px solid rgba(226, 232, 240, 0.7);
           box-shadow:
-            0 0 20px rgba(226, 232, 240, 0.5),
-            0 0 50px rgba(203, 213, 225, 0.3);
+            0 0 30px rgba(226, 232, 240, 0.5),
+            0 0 60px rgba(203, 213, 225, 0.3);
         }
 
         .supernova-ring.ring-3 {
-          width: 200px;
-          height: 200px;
+          width: 400px;
+          height: 400px;
           border: 1.5px solid rgba(148, 163, 184, 0.5);
           box-shadow:
-            0 0 15px rgba(148, 163, 184, 0.4),
-            0 0 40px rgba(148, 163, 184, 0.2);
+            0 0 20px rgba(148, 163, 184, 0.4),
+            0 0 50px rgba(148, 163, 184, 0.2);
         }
 
         .supernova-flash {
