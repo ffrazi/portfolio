@@ -55,7 +55,6 @@ export default function Arena() {
     const cells = [];
     const intensities = [0.1, 0.25, 0.5, 0.8, 1];
     for (let i = 0; i < 7 * 20; i++) {
-      // Create a pseudo-random distribution biased toward low-medium levels
       const rand = Math.random();
       let opacity = 0.05;
       if (rand > 0.8) opacity = intensities[4];
@@ -119,171 +118,168 @@ export default function Arena() {
 
         <div className="arena-split-grid">
           {/* LEFT PANEL: Competitive Highlights & LeetCode Stats */}
-          <motion.div
-            className="arena-panel glass left-panel"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7 }}
-          >
-            <div className="panel-header">
-              <Award className="header-icon" />
-              <h3>Competitive Highlights</h3>
-            </div>
-
-            <div className="highlights-content">
-              <div className="highlight-row">
-                <span className="emoji-icon">⚡</span>
-                <div className="highlight-text">
-                  <h4>400+ Problems Solved</h4>
-                  <p>Consistently solving DSA problems across arrays, DP, graphs, trees, greedy algorithms, and system design concepts.</p>
-                </div>
+          <div className="arena-panel glass left-panel">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7 }}
+              style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+            >
+              <div className="panel-header">
+                <Award className="header-icon" />
+                <h3>Competitive Highlights</h3>
               </div>
 
-              <div className="highlight-row">
-                <span className="emoji-icon">⚔</span>
-                <div className="highlight-text">
-                  <h4>Multiple Coding Arenas</h4>
-                  <p>Actively participating across several competitive programming platforms to strengthen problem-solving and algorithmic thinking.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* LeetCode Stats Card Dashboard */}
-            <div className="leetcode-dashboard">
-              <div className="dashboard-header">
-                <div className="db-brand">
-                  <span className="db-logo">L</span>
-                  <span>LeetCode Status</span>
-                </div>
-                <div className="db-rank">Rank: 92,104</div>
-              </div>
-
-              <div className="dashboard-stats-grid">
-                {/* Solved breakdown */}
-                <div className="stats-circle-container">
-                  <svg className="progress-ring" width="100" height="100">
-                    <circle className="progress-ring-bg" cx="50" cy="50" r="40" />
-                    <circle className="progress-ring-fill" cx="50" cy="50" r="40" />
-                  </svg>
-                  <div className="circle-labels">
-                    <span className="circle-num">412</span>
-                    <span className="circle-sub">Solved</span>
+              <div className="highlights-content">
+                <div className="highlight-row">
+                  <span className="emoji-icon">⚡</span>
+                  <div className="highlight-text">
+                    <h4>400+ Problems Solved</h4>
+                    <p>Consistently solving DSA problems across arrays, DP, graphs, trees, greedy algorithms, and system design concepts.</p>
                   </div>
                 </div>
 
-                {/* Level list */}
-                <div className="levels-list">
-                  <div className="level-item">
-                    <div className="level-meta">
-                      <span className="level-name easy">Easy</span>
-                      <span className="level-count">150<span className="total">/450</span></span>
+                <div className="highlight-row">
+                  <span className="emoji-icon">⚔</span>
+                  <div className="highlight-text">
+                    <h4>Multiple Coding Arenas</h4>
+                    <p>Actively participating across several competitive programming platforms to strengthen problem-solving and algorithmic thinking.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* LeetCode Stats Card Dashboard */}
+              <div className="leetcode-dashboard">
+                <div className="dashboard-header">
+                  <div className="db-brand">
+                    <span className="db-logo">L</span>
+                    <span>LeetCode Status</span>
+                  </div>
+                  <div className="db-rank">Rank: 92,104</div>
+                </div>
+
+                <div className="dashboard-stats-grid">
+                  {/* Solved breakdown */}
+                  <div className="stats-circle-container">
+                    <svg className="progress-ring" width="100" height="100">
+                      <circle className="progress-ring-bg" cx="50" cy="50" r="40" />
+                      <circle className="progress-ring-fill" cx="50" cy="50" r="40" />
+                    </svg>
+                    <div className="circle-labels">
+                      <span className="circle-num">412</span>
+                      <span className="circle-sub">Solved</span>
                     </div>
-                    <div className="level-bar-bg"><div className="level-bar-fill easy" style={{ width: '33%' }}></div></div>
                   </div>
-                  <div className="level-item">
-                    <div className="level-meta">
-                      <span className="level-name medium">Medium</span>
-                      <span className="level-count">220<span className="total">/680</span></span>
+
+                  {/* Level list */}
+                  <div className="levels-list">
+                    <div className="level-item">
+                      <div className="level-meta">
+                        <span className="level-name easy">Easy</span>
+                        <span className="level-count">150<span className="total">/450</span></span>
+                      </div>
+                      <div className="level-bar-bg"><div className="level-bar-fill easy" style={{ width: '33%' }}></div></div>
                     </div>
-                    <div className="level-bar-bg"><div className="level-bar-fill medium" style={{ width: '32%' }}></div></div>
+                    <div className="level-item">
+                      <div className="level-meta">
+                        <span className="level-name medium">Medium</span>
+                        <span className="level-count">220<span className="total">/680</span></span>
+                      </div>
+                      <div className="level-bar-bg"><div className="level-bar-fill medium" style={{ width: '32%' }}></div></div>
+                    </div>
+                    <div className="level-item">
+                      <div className="level-meta">
+                        <span className="level-name hard">Hard</span>
+                        <span className="level-count">42<span className="total">/270</span></span>
+                      </div>
+                      <div className="level-bar-bg"><div className="level-bar-fill hard" style={{ width: '15%' }}></div></div>
+                    </div>
                   </div>
-                  <div className="level-item">
-                    <div className="level-meta">
-                      <span className="level-name hard">Hard</span>
-                      <span className="level-count">42<span className="total">/270</span></span>
+
+                  {/* Performance specs */}
+                  <div className="performance-specs">
+                    <div className="spec-row">
+                      <span className="spec-label">Acceptance</span>
+                      <span className="spec-val">64.5%</span>
                     </div>
-                    <div className="level-bar-bg"><div className="level-bar-fill hard" style={{ width: '15%' }}></div></div>
+                    <div className="spec-row">
+                      <span className="spec-label">Contest Rating</span>
+                      <span className="spec-val rating">1720</span>
+                    </div>
+                    <div className="spec-row">
+                      <span className="spec-label">Daily Streak</span>
+                      <span className="spec-val streak">15 Days</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Performance specs */}
-                <div className="performance-specs">
-                  <div className="spec-row">
-                    <span className="spec-label">Acceptance</span>
-                    <span className="spec-val">64.5%</span>
+                {/* Heatmap Contribution Graph */}
+                <div className="heatmap-container">
+                  <div className="heatmap-header">
+                    <span>Contributions</span>
+                    <span className="heatmap-legend">Less <span className="cell-sq"></span><span className="cell-sq high"></span> More</span>
                   </div>
-                  <div className="spec-row">
-                    <span className="spec-label">Contest Rating</span>
-                    <span className="spec-val rating">1720</span>
-                  </div>
-                  <div className="spec-row">
-                    <span className="spec-label">Daily Streak</span>
-                    <span className="spec-val streak">15 Days</span>
+                  <div className="heatmap-grid">
+                    {renderHeatmap()}
                   </div>
                 </div>
               </div>
-
-              {/* Heatmap Contribution Graph */}
-              <div className="heatmap-container">
-                <div className="heatmap-header">
-                  <span>Contributions</span>
-                  <span className="heatmap-legend">Less <span className="cell-sq"></span><span className="cell-sq high"></span> More</span>
-                </div>
-                <div className="heatmap-grid">
-                  {renderHeatmap()}
-                </div>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* RIGHT PANEL: Coding Platforms */}
-          <motion.div
-            className="arena-panel glass right-panel"
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7 }}
-          >
-            <div className="panel-header">
-              <Sparkles className="header-icon" />
-              <h3>Coding Platforms</h3>
-            </div>
+          <div className="arena-panel glass right-panel">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7 }}
+              style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+            >
+              <div className="panel-header">
+                <Sparkles className="header-icon" />
+                <h3>Coding Platforms</h3>
+              </div>
 
-            <div className="platforms-list">
-              {platforms.map((plat, idx) => (
-                <motion.a
-                  href={plat.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  key={idx}
-                  className="platform-row-item"
-                  whileHover={{ 
-                    scale: 1.02,
-                    borderColor: 'rgba(168, 85, 247, 0.4)',
-                    background: 'rgba(139, 92, 246, 0.05)',
-                    boxShadow: '0 0 20px rgba(139, 92, 246, 0.15)'
-                  }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                >
-                  {/* Column 1: Colored Dot */}
-                  <div className="col-dot">
-                    <div className="status-dot" style={{ backgroundColor: plat.color, boxShadow: `0 0 10px ${plat.color}` }} />
-                  </div>
+              <div className="platforms-list">
+                {platforms.map((plat, idx) => (
+                  <a
+                    href={plat.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={idx}
+                    className="platform-row-item"
+                  >
+                    {/* Column 1: Colored Dot */}
+                    <div className="col-dot">
+                      <div className="status-dot" style={{ backgroundColor: plat.color, boxShadow: `0 0 10px ${plat.color}` }} />
+                    </div>
 
-                  {/* Column 2: Platform Name */}
-                  <div className="col-name">
-                    <span className="platform-name">{plat.name}</span>
-                  </div>
+                    {/* Column 2: Platform Name */}
+                    <div className="col-name">
+                      <span className="platform-name">{plat.name}</span>
+                    </div>
 
-                  {/* Column 3: Username */}
-                  <div className="col-username">
-                    <span className="platform-username">{plat.username}</span>
-                  </div>
+                    {/* Column 3: Username */}
+                    <div className="col-username">
+                      <span className="platform-username">{plat.username}</span>
+                    </div>
 
-                  {/* Column 4: Badge */}
-                  <div className="col-badge">
-                    <span className="platform-badge">{plat.stats}</span>
-                  </div>
+                    {/* Column 4: Badge */}
+                    <div className="col-badge">
+                      <span className="platform-badge">{plat.stats}</span>
+                    </div>
 
-                  {/* Column 5: Link Arrow */}
-                  <div className="col-arrow">
-                    <ExternalLink size={16} className="link-arrow" />
-                  </div>
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
+                    {/* Column 5: Link Arrow */}
+                    <div className="col-arrow">
+                      <ExternalLink size={16} className="link-arrow" />
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
 
@@ -317,7 +313,7 @@ export default function Arena() {
           display: grid;
           grid-template-columns: 1fr 1.2fr;
           gap: 3rem;
-          align-items: stretch; /* Forces equal height */
+          align-items: stretch;
         }
 
         .arena-panel {
@@ -468,7 +464,7 @@ export default function Arena() {
           stroke: var(--accent-purple);
           stroke-width: 8;
           stroke-dasharray: 251.2;
-          stroke-dashoffset: 160; /* Approx 412/1200 solved visual representation */
+          stroke-dashoffset: 160;
           stroke-linecap: round;
           transform: rotate(-90deg);
           transform-origin: 50px 50px;
@@ -650,6 +646,13 @@ export default function Arena() {
           overflow: hidden;
         }
 
+        .platform-row-item:hover {
+          transform: scale(1.02);
+          border-color: rgba(168, 85, 247, 0.4);
+          background: rgba(139, 92, 246, 0.05);
+          box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
+        }
+
         .col-dot {
           display: flex;
           align-items: center;
@@ -752,7 +755,7 @@ export default function Arena() {
             gap: 0.5rem;
           }
           .col-badge {
-            display: none; /* Hide badges on small screen rows to prevent squishing */
+            display: none;
           }
           .platform-name {
             font-size: 1.05rem;
