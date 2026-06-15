@@ -42,18 +42,17 @@ export default function Experience() {
             // First item (index 0) on right (|_), second on left (_|), third on right (|_)
             const isLeft = index % 2 === 1;
             return (
-              <motion.div
-                key={index}
-                className="timeline-row"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-              >
+              <div key={index} className="timeline-row">
                 {/* LEFT CARD */}
                 <div className={`timeline-side left-side ${isLeft ? 'has-card' : 'empty'}`}>
                   {isLeft && (
-                    <div className="timeline-card glass">
+                    <motion.div 
+                      className="timeline-card glass"
+                      initial={{ opacity: 0, x: -50 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.6, delay: 0.1 }}
+                    >
                       <div className="card-header">
                         <div className="header-meta">
                           <span className="role">{exp.role}</span>
@@ -70,19 +69,31 @@ export default function Experience() {
                           <span key={idx} className="tech-tag">{t}</span>
                         ))}
                       </div>
-                    </div>
+                    </motion.div>
                   )}
                 </div>
 
                 {/* CENTER DOT */}
                 <div className="timeline-center">
-                  <div className="timeline-dot" />
+                  <motion.div 
+                    className="timeline-dot"
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.4, delay: 0.1 }}
+                  />
                 </div>
 
                 {/* RIGHT CARD */}
                 <div className={`timeline-side right-side ${!isLeft ? 'has-card' : 'empty'}`}>
                   {!isLeft && (
-                    <div className="timeline-card glass">
+                    <motion.div 
+                      className="timeline-card glass"
+                      initial={{ opacity: 0, x: 50 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.6, delay: 0.1 }}
+                    >
                       <div className="card-header">
                         <div className="header-meta">
                           <span className="role">{exp.role}</span>
@@ -99,10 +110,10 @@ export default function Experience() {
                           <span key={idx} className="tech-tag">{t}</span>
                         ))}
                       </div>
-                    </div>
+                    </motion.div>
                   )}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
