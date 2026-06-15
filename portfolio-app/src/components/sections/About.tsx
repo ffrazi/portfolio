@@ -88,12 +88,13 @@ export default function About() {
       <style jsx>{`
         .about-grid {
           display: grid;
-          grid-template-columns: 1.1fr 0.9fr;
+          grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
           gap: 3rem;
           align-items: center;
         }
 
         .about-details {
+          min-width: 0;
           padding: 2.5rem;
           display: flex;
           flex-direction: column;
@@ -158,6 +159,7 @@ export default function About() {
         }
 
         .about-code {
+          min-width: 0;
           border-radius: 12px;
           overflow: hidden;
           padding: 0;
@@ -202,8 +204,24 @@ export default function About() {
 
         @media (max-width: 968px) {
           .about-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
             gap: 2.5rem;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .about-details {
+            padding: 1.75rem 1.25rem;
+          }
+          .about-heading {
+            font-size: 1.5rem;
+          }
+          .about-bio {
+            font-size: 0.95rem;
+          }
+          .code-body {
+            padding: 1rem;
+            font-size: 0.8rem;
           }
         }
 
