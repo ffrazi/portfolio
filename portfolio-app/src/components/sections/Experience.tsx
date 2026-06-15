@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar } from 'lucide-react';
+import { Calendar, Zap } from 'lucide-react';
 
 export default function Experience() {
   const experiences = [
@@ -35,51 +35,84 @@ export default function Experience() {
         <h2 className="section-title">Timeline of Experience</h2>
 
         <div className="timeline-container">
-          <div className="timeline-line"></div>
+          {/* Central vertical line */}
+          <div className="timeline-line" />
 
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-            >
-              {/* Lightning bolt node */}
-              <div className="timeline-dot">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="dot-icon-svg">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor" />
-                </svg>
-              </div>
+          {experiences.map((exp, index) => {
+            const isLeft = index % 2 === 0;
+            return (
+              <motion.div
+                key={index}
+                className="timeline-row"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+              >
+                {/* LEFT CARD */}
+                <div className={`timeline-side left-side ${isLeft ? 'has-card' : 'empty'}`}>
+                  {isLeft && (
+                    <div className="timeline-card glass">
+                      <div className="card-header">
+                        <div className="header-meta">
+                          <span className="role">{exp.role}</span>
+                          <span className="company text-purple">{exp.company}</span>
+                        </div>
+                        <div className="date-badge">
+                          <Calendar size={14} />
+                          <span>{exp.period}</span>
+                        </div>
+                      </div>
+                      <p className="description">{exp.description}</p>
+                      <div className="tech-tags">
+                        {exp.tech.map((t, idx) => (
+                          <span key={idx} className="tech-tag">{t}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
 
-              <div className="timeline-card glass">
-                <div className="card-header">
-                  <div className="header-meta">
-                    <span className="role">{exp.role}</span>
-                    <span className="company text-purple">{exp.company}</span>
-                  </div>
-                  <div className="date-badge">
-                    <Calendar size={14} />
-                    <span>{exp.period}</span>
+                {/* CENTER DOT */}
+                <div className="timeline-center">
+                  <div className="timeline-dot">
+                    <Zap size={14} />
                   </div>
                 </div>
-                <p className="description">{exp.description}</p>
-                <div className="tech-tags">
-                  {exp.tech.map((t, idx) => (
-                    <span key={idx} className="tech-tag">{t}</span>
-                  ))}
+
+                {/* RIGHT CARD */}
+                <div className={`timeline-side right-side ${!isLeft ? 'has-card' : 'empty'}`}>
+                  {!isLeft && (
+                    <div className="timeline-card glass">
+                      <div className="card-header">
+                        <div className="header-meta">
+                          <span className="role">{exp.role}</span>
+                          <span className="company text-purple">{exp.company}</span>
+                        </div>
+                        <div className="date-badge">
+                          <Calendar size={14} />
+                          <span>{exp.period}</span>
+                        </div>
+                      </div>
+                      <p className="description">{exp.description}</p>
+                      <div className="tech-tags">
+                        {exp.tech.map((t, idx) => (
+                          <span key={idx} className="tech-tag">{t}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
       <style jsx>{`
         .timeline-container {
           position: relative;
-          max-width: 1000px;
+          max-width: 1100px;
           margin: 0 auto;
           padding: 2rem 0;
         }
@@ -90,108 +123,75 @@ export default function Experience() {
           top: 0;
           width: 2px;
           height: 100%;
-          background: linear-gradient(180deg, 
-            rgba(148, 163, 184, 0.05) 0%, 
-            rgba(226, 232, 240, 0.6) 15%, 
-            rgba(255, 255, 255, 0.8) 50%, 
-            rgba(226, 232, 240, 0.6) 85%, 
-            rgba(148, 163, 184, 0.05) 100%
+          background: linear-gradient(180deg,
+            rgba(139, 92, 246, 0.1) 0%,
+            var(--accent-purple) 20%,
+            var(--accent-indigo) 80%,
+            rgba(99, 102, 241, 0.1) 100%
           );
           transform: translateX(-50%);
           z-index: 1;
-          box-shadow: 0 0 8px rgba(255, 255, 255, 0.15), 0 0 20px rgba(148, 163, 184, 0.1);
+          box-shadow: 0 0 12px rgba(139, 92, 246, 0.2);
         }
 
-        .timeline-item {
+        .timeline-row {
           display: flex;
-          justify-content: flex-end;
-          width: 50%;
+          align-items: center;
+          width: 100%;
           position: relative;
           z-index: 2;
-          padding: 1.5rem 0;
+          margin-bottom: 2rem;
         }
 
-        .timeline-item.left {
-          align-self: flex-start;
-          justify-content: flex-start;
-          left: 0;
-          padding-right: 3rem;
+        .timeline-side {
+          flex: 1;
+          min-width: 0;
         }
 
-        .timeline-item.right {
-          align-self: flex-end;
-          justify-content: flex-start;
-          left: 50%;
-          padding-left: 3rem;
+        .left-side {
+          padding-right: 2.5rem;
         }
 
-        .timeline-dot {
-          position: absolute;
-          left: 100%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, rgba(226, 232, 240, 0.15), rgba(148, 163, 184, 0.1));
-          border: 2px solid rgba(226, 232, 240, 0.5);
+        .right-side {
+          padding-left: 2.5rem;
+        }
+
+        .left-side.empty,
+        .right-side.empty {
+          visibility: hidden;
+        }
+
+        .timeline-center {
+          flex-shrink: 0;
+          width: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 12px rgba(255, 255, 255, 0.2), 0 0 25px rgba(148, 163, 184, 0.15);
-          transition: all 0.3s ease;
           z-index: 3;
-          backdrop-filter: blur(4px);
+        }
+
+        .timeline-dot {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: var(--bg-secondary);
+          border: 2px solid var(--accent-purple);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 0 15px rgba(139, 92, 246, 0.4), 0 0 30px rgba(139, 92, 246, 0.15);
+          color: var(--accent-purple);
+          transition: all 0.3s ease;
         }
 
         .timeline-dot:hover {
-          box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(226, 232, 240, 0.25);
-          border-color: rgba(255, 255, 255, 0.7);
-        }
-
-        .timeline-item.right .timeline-dot {
-          left: 0;
-        }
-
-        .dot-icon-svg {
-          color: rgba(226, 232, 240, 0.9);
-          filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+          box-shadow: 0 0 25px rgba(139, 92, 246, 0.6), 0 0 50px rgba(139, 92, 246, 0.25);
+          transform: scale(1.1);
         }
 
         .timeline-card {
-          width: 100%;
           padding: 2rem;
-          position: relative;
           cursor: pointer;
-          border-color: rgba(148, 163, 184, 0.12);
-        }
-
-        .timeline-card:hover {
-          border-color: rgba(226, 232, 240, 0.3);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 15px rgba(226, 232, 240, 0.05);
-        }
-
-        .timeline-card::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          width: 0;
-          height: 0;
-          border-top: 10px solid transparent;
-          border-bottom: 10px solid transparent;
-          z-index: 1;
-        }
-
-        .timeline-item.left .timeline-card::before {
-          right: -10px;
-          border-left: 10px solid rgba(148, 163, 184, 0.12);
-          transform: translateY(-50%);
-        }
-
-        .timeline-item.right .timeline-card::before {
-          left: -10px;
-          border-right: 10px solid rgba(148, 163, 184, 0.12);
-          transform: translateY(-50%);
         }
 
         .card-header {
@@ -223,12 +223,12 @@ export default function Experience() {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
-          background: rgba(226, 232, 240, 0.06);
-          border: 1px solid rgba(226, 232, 240, 0.15);
+          background: rgba(139, 92, 246, 0.1);
+          border: 1px solid rgba(139, 92, 246, 0.2);
           padding: 0.4rem 0.8rem;
           border-radius: 50px;
           font-size: 0.8rem;
-          color: rgba(226, 232, 240, 0.8);
+          color: var(--text-purple);
           font-weight: 600;
           white-space: nowrap;
         }
@@ -260,22 +260,27 @@ export default function Experience() {
           .timeline-line {
             left: 20px;
           }
-          .timeline-item {
-            width: 100% !important;
-            padding-left: 50px !important;
+          .timeline-row {
+            flex-direction: row;
+          }
+          .timeline-center {
+            position: absolute;
+            left: 0;
+          }
+          .timeline-side {
+            padding-left: 60px !important;
             padding-right: 0 !important;
-            align-self: flex-start !important;
-            left: 0 !important;
           }
-          .timeline-item.left .timeline-card::before,
-          .timeline-item.right .timeline-card::before {
-            left: -10px;
-            right: auto;
-            border-right: 10px solid rgba(148, 163, 184, 0.12);
-            border-left: none;
+          .left-side.empty {
+            display: none;
           }
-          .timeline-dot {
-            left: 20px !important;
+          .right-side.empty {
+            display: none;
+          }
+          .left-side.has-card,
+          .right-side.has-card {
+            visibility: visible;
+            flex: 1;
           }
           .card-header {
             flex-direction: column;

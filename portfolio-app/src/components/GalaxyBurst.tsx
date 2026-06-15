@@ -150,8 +150,8 @@ export default function GalaxyBurst() {
                       <motion.span
                         key={letterIndex}
                         className="letter-span"
-                        initial={{ opacity: 0, scale: 1.8, textShadow: '0 0 40px #fff' }}
-                        animate={{ opacity: 1, scale: 1, textShadow: '0 0 0px #fff' }}
+                      initial={{ opacity: 0, scale: 1.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
                         transition={{
                           duration: 0.8,
                           delay: 0.3 + (wordIndex * 5 + letterIndex) * 0.035,
@@ -323,10 +323,10 @@ export default function GalaxyBurst() {
           letter-spacing: -2px;
           line-height: 1.1;
           margin-bottom: 0.5rem;
-          background: linear-gradient(135deg, #ffffff 40%, #c084fc 70%, #8b5cf6 100%);
+          background: linear-gradient(135deg, #ffffff 30%, #c084fc 60%, #8b5cf6 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.2));
+          filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.35));
         }
 
         .word-span {
