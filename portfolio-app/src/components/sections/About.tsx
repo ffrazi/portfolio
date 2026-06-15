@@ -206,6 +206,13 @@ export default function About() {
             gap: 2.5rem;
           }
         }
+
+        @media (max-width: 480px) {
+          .info-cards {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+          }
+        }
       `}</style>
     </section>
   );

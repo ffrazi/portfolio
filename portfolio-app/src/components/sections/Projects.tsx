@@ -196,6 +196,12 @@ export default function Projects() {
           margin-left: auto;
         }
 
+        @media (max-width: 640px) {
+          .project-card {
+            padding: 1.5rem;
+          }
+        }
+
         @media (max-width: 480px) {
           .projects-grid {
             grid-template-columns: 1fr;

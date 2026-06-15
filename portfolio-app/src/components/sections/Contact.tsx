@@ -358,6 +358,13 @@ export default function Contact() {
             grid-template-columns: 1fr;
           }
         }
+
+        @media (max-width: 640px) {
+          .contact-details,
+          .contact-form-wrapper {
+            padding: 1.75rem 1.25rem;
+          }
+        }
       `}</style>
     </section>
   );
