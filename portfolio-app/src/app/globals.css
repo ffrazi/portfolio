@@ -46,6 +46,11 @@ html, body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48ZyB0cmFuc2Zvcm09InJvdGF0ZSgtNDUgMTYgMTYpIj48cGF0aCBmaWxsPSIjM2I4MmY2IiBkPSJNMTYgMjZjLTIgMC0zIDYtMyA2czMtMiAzLTIgMyAyIDMgMi0xLTYtMy02eiIvPjxwYXRoIGZpbGw9IiNlMmU4ZjAiIGQ9Ik0xNiAyYzAgMC00IDQtNCAxNmg4YzAtMTItNC0xNi00LTE2eiIvPjxwYXRoIGZpbGw9IiM5NGEzYjgiIGQ9Ik0xMiAxOGwtNCA2aDR2LTZ6bTggMHY2aDRsLTQtNnoiLz48Y2lyY2xlIGZpbGw9IiMwZjE3MmEiIGN4PSIxNiIgY3k9IjEyIiByPSIxLjUiLz48L2c+PC9zdmc+') 0 0, auto;
+}
+
+a, button, [role="button"], input, select, textarea {
+  cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48ZyB0cmFuc2Zvcm09InJvdGF0ZSgtNDUgMTYgMTYpIj48cGF0aCBmaWxsPSIjM2I4MmY2IiBkPSJNMTYgMjZjLTIgMC0zIDYtMyA2czMtMiAzLTIgMyAyIDMgMi0xLTYtMy02eiIvPjxwYXRoIGZpbGw9IiNlMmU4ZjAiIGQ9Ik0xNiAyYzAgMC00IDQtNCAxNmg4YzAtMTItNC0xNi00LTE2eiIvPjxwYXRoIGZpbGw9IiM5NGEzYjgiIGQ9Ik0xMiAxOGwtNCA2aDR2LTZ6bTggMHY2aDRsLTQtNnoiLz48Y2lyY2xlIGZpbGw9IiMwZjE3MmEiIGN4PSIxNiIgY3k9IjEyIiByPSIxLjUiLz48L2c+PC9zdmc+') 0 0, pointer !important;
 }
 
 /* Custom Scrollbar */

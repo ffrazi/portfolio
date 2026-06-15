@@ -128,19 +128,6 @@ export default function GalaxyBurst() {
               CS Undergrad & Competitive Programmer | Builder of Intelligent Systems
             </motion.p>
 
-            <motion.div
-              className="scroll-indicator"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2.5, duration: 1 }}
-              onClick={() => {
-                const el = document.getElementById('about');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              <span className="scroll-text">Explore Constellations</span>
-              <div className="chevron-down" />
-            </motion.div>
           </div>
         )}
       </div>
@@ -161,12 +148,12 @@ export default function GalaxyBurst() {
           width: 80px;
           height: 80px;
           border-radius: 50%;
-          background: radial-gradient(circle, #c084fc 0%, #8b5cf6 50%, #4f46e5 100%);
-          box-shadow: 0 0 50px #8b5cf6, 0 0 100px #6366f1, 0 0 150px #4338ca;
+          background: radial-gradient(circle, #ffffff 0%, #f1f5f9 50%, #cbd5e1 100%);
+          box-shadow: 0 0 50px #ffffff, 0 0 100px #f1f5f9, 0 0 150px #cbd5e1;
         }
 
         .galaxy-core.charging {
-          box-shadow: 0 0 80px #a855f7, 0 0 140px #8b5cf6, 0 0 200px #6366f1, 0 0 300px #4f46e5;
+          box-shadow: 0 0 80px #ffffff, 0 0 140px #f8fafc, 0 0 200px #f1f5f9, 0 0 300px #cbd5e1;
         }
 
         .particle-burst {
@@ -179,8 +166,8 @@ export default function GalaxyBurst() {
         .burst-particle {
           position: absolute;
           border-radius: 50%;
-          background: radial-gradient(circle, #fff 0%, #c084fc 50%, #8b5cf6 100%);
-          box-shadow: 0 0 10px #c084fc, 0 0 20px #8b5cf6;
+          background: radial-gradient(circle, #fff 0%, #f1f5f9 50%, #cbd5e1 100%);
+          box-shadow: 0 0 10px #ffffff, 0 0 20px #f1f5f9;
         }
 
         .reveal-content {

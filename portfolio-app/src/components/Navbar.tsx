@@ -56,7 +56,7 @@ export default function Navbar() {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="navbar-container">
           <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <span>AF</span>
+            <span>FAZ</span>
             <span className="logo-dot">.</span>
           </div>
 
@@ -69,12 +69,6 @@ export default function Navbar() {
               >
                 {item.label}
               </button>
-            ))}
-            {user && (
-              <button onClick={signOut} className="logout-btn" title="Sign Out">
-                <LogOut size={18} />
-              </button>
-            )}
           </div>
 
           <div className="mobile-toggle">
@@ -96,11 +90,6 @@ export default function Navbar() {
             {item.label}
           </button>
         ))}
-        {user && (
-          <button onClick={signOut} className="mobile-logout-btn">
-            <LogOut size={18} /> Sign Out
-          </button>
-        )}
       </div>
 
       <style jsx>{`
