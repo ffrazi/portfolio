@@ -30,7 +30,7 @@ export default function Skills() {
 
   return (
     <section id="skills">
-      <div className="container">
+      <div className="container skills-container">
         <h2 className="section-title">Constellation of Skills</h2>
 
         <div className="skills-grid">
@@ -68,29 +68,33 @@ export default function Skills() {
       </div>
 
       <style jsx>{`
+        .skills-container {
+          max-width: 1400px !important;
+        }
+
         .skills-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 2.5rem;
+          gap: 1.5rem;
           margin-top: 1rem;
         }
 
         @media (max-width: 1024px) {
           .skills-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
+            gap: 1.5rem;
           }
         }
 
         @media (max-width: 640px) {
           .skills-grid {
             grid-template-columns: 1fr;
-            gap: 1.5rem;
+            gap: 1.25rem;
           }
         }
 
         .skills-card {
-          padding: 2.25rem;
+          padding: 1.75rem;
           height: 100%;
         }
 
