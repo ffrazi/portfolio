@@ -69,6 +69,7 @@ export default function Navbar() {
               >
                 {item.label}
               </button>
+            ))}
           </div>
 
           <div className="mobile-toggle">
