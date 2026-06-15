@@ -2,10 +2,17 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Calendar } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 
 export default function Experience() {
   const experiences = [
+    {
+      role: "AI/ML Developer & Tester",
+      company: "LCS Controls Pvt. Ltd.",
+      period: "June 2025 – Present",
+      description: "Architecting and deploying production-ready ML models, fine-tuning existing models for performance optimization, and developing L&D training resources for internal teams and new joinees across Electronics, CS, and AI/ML domains.",
+      tech: ["Python", "TensorFlow", "LangChain", "FastAPI", "Docker"],
+    },
     {
       role: "Software Engineering Intern",
       company: "LCS Controls Pvt. Ltd.",
@@ -14,7 +21,7 @@ export default function Experience() {
       tech: ["Python", "Flask", "PostgreSQL", "REST APIs"],
     },
     {
-      role: "System Administration Intern",
+      role: "Online Software Intern",
       company: "HostCircle IT Solutions",
       period: "July 2024 – August 2024",
       description: "Administered virtualization nodes, automated server maintenance configurations, managed container setups, and gained hands-on experience in networking infrastructure and security policies.",
@@ -39,8 +46,11 @@ export default function Experience() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
             >
+              {/* Lightning bolt node */}
               <div className="timeline-dot">
-                <Briefcase size={14} className="dot-icon" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="dot-icon-svg">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor" />
+                </svg>
               </div>
 
               <div className="timeline-card glass">
@@ -81,13 +91,15 @@ export default function Experience() {
           width: 2px;
           height: 100%;
           background: linear-gradient(180deg, 
-            rgba(139, 92, 246, 0.1) 0%, 
-            var(--accent-purple) 20%, 
-            var(--accent-indigo) 80%, 
-            rgba(99, 102, 241, 0.1) 100%
+            rgba(148, 163, 184, 0.05) 0%, 
+            rgba(226, 232, 240, 0.6) 15%, 
+            rgba(255, 255, 255, 0.8) 50%, 
+            rgba(226, 232, 240, 0.6) 85%, 
+            rgba(148, 163, 184, 0.05) 100%
           );
           transform: translateX(-50%);
           z-index: 1;
+          box-shadow: 0 0 8px rgba(255, 255, 255, 0.15), 0 0 20px rgba(148, 163, 184, 0.1);
         }
 
         .timeline-item {
@@ -96,7 +108,7 @@ export default function Experience() {
           width: 50%;
           position: relative;
           z-index: 2;
-          padding: 2rem 0;
+          padding: 1.5rem 0;
         }
 
         .timeline-item.left {
@@ -121,22 +133,29 @@ export default function Experience() {
           width: 36px;
           height: 36px;
           border-radius: 50%;
-          background: var(--bg-secondary);
-          border: 2px solid var(--accent-purple);
+          background: linear-gradient(135deg, rgba(226, 232, 240, 0.15), rgba(148, 163, 184, 0.1));
+          border: 2px solid rgba(226, 232, 240, 0.5);
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 15px var(--accent-purple);
+          box-shadow: 0 0 12px rgba(255, 255, 255, 0.2), 0 0 25px rgba(148, 163, 184, 0.15);
           transition: all 0.3s ease;
           z-index: 3;
+          backdrop-filter: blur(4px);
+        }
+
+        .timeline-dot:hover {
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(226, 232, 240, 0.25);
+          border-color: rgba(255, 255, 255, 0.7);
         }
 
         .timeline-item.right .timeline-dot {
           left: 0;
         }
 
-        .dot-icon {
-          color: var(--text-primary);
+        .dot-icon-svg {
+          color: rgba(226, 232, 240, 0.9);
+          filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
         }
 
         .timeline-card {
@@ -144,6 +163,12 @@ export default function Experience() {
           padding: 2rem;
           position: relative;
           cursor: pointer;
+          border-color: rgba(148, 163, 184, 0.12);
+        }
+
+        .timeline-card:hover {
+          border-color: rgba(226, 232, 240, 0.3);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 15px rgba(226, 232, 240, 0.05);
         }
 
         .timeline-card::before {
@@ -159,13 +184,13 @@ export default function Experience() {
 
         .timeline-item.left .timeline-card::before {
           right: -10px;
-          border-left: 10px solid var(--glass-border);
+          border-left: 10px solid rgba(148, 163, 184, 0.12);
           transform: translateY(-50%);
         }
 
         .timeline-item.right .timeline-card::before {
           left: -10px;
-          border-right: 10px solid var(--glass-border);
+          border-right: 10px solid rgba(148, 163, 184, 0.12);
           transform: translateY(-50%);
         }
 
@@ -198,12 +223,12 @@ export default function Experience() {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
-          background: rgba(139, 92, 246, 0.1);
-          border: 1px solid rgba(139, 92, 246, 0.2);
+          background: rgba(226, 232, 240, 0.06);
+          border: 1px solid rgba(226, 232, 240, 0.15);
           padding: 0.4rem 0.8rem;
           border-radius: 50px;
           font-size: 0.8rem;
-          color: var(--text-purple);
+          color: rgba(226, 232, 240, 0.8);
           font-weight: 600;
           white-space: nowrap;
         }
@@ -240,12 +265,13 @@ export default function Experience() {
             padding-left: 50px !important;
             padding-right: 0 !important;
             align-self: flex-start !important;
+            left: 0 !important;
           }
           .timeline-item.left .timeline-card::before,
           .timeline-item.right .timeline-card::before {
             left: -10px;
             right: auto;
-            border-right: 10px solid var(--glass-border);
+            border-right: 10px solid rgba(148, 163, 184, 0.12);
             border-left: none;
           }
           .timeline-dot {
