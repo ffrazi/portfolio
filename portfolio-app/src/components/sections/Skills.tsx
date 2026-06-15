@@ -9,22 +9,17 @@ export default function Skills() {
     {
       title: "Languages",
       icon: <Terminal size={22} />,
-      skills: ["Python", "Java", "C++", "C", "JavaScript", "TypeScript"],
+      skills: ["Python", "Java", "JS", "SQL"],
     },
     {
-      title: "Frameworks & Web",
+      title: "Frameworks",
       icon: <Layout size={22} />,
-      skills: ["React", "Next.js", "Flask", "FastAPI", "Spring Boot", "Django"],
+      skills: ["Flask", "Django", "FastAPI", "RestfulAPI", "React"],
     },
     {
-      title: "AI, ML & CV",
-      icon: <Cpu size={22} />,
-      skills: ["TensorFlow", "PyTorch", "Keras", "OpenCV", "LangChain", "NLP"],
-    },
-    {
-      title: "Database & Cloud",
+      title: "Database",
       icon: <Database size={22} />,
-      skills: ["Docker", "Git", "Linux", "AWS", "Firebase", "MongoDB", "MySQL"],
+      skills: ["Firebase", "Docker", "Vercel", "Render", "Sqlite", "Kaggle"],
     },
   ];
 
@@ -70,19 +65,19 @@ export default function Skills() {
       <style jsx>{`
         .skills-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 2rem;
           margin-top: 1rem;
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 900px) {
           .skills-grid {
             grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
           }
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 600px) {
           .skills-grid {
             grid-template-columns: 1fr;
             gap: 1.5rem;
