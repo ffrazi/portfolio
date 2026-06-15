@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Zap } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 
 export default function Experience() {
   const experiences = [
     {
       role: "AI/ML Developer & Tester",
-      company: "LCS Controls Pvt. Ltd.",
-      period: "June 2025 – Present",
+      company: "BrumBella IoT Private Ltd.",
+      period: "June 2026 – Present",
       description: "Architecting and deploying production-ready ML models, fine-tuning existing models for performance optimization, and developing L&D training resources for internal teams and new joinees across Electronics, CS, and AI/ML domains.",
       tech: ["Python", "TensorFlow", "LangChain", "FastAPI", "Docker"],
     },
@@ -39,7 +39,8 @@ export default function Experience() {
           <div className="timeline-line" />
 
           {experiences.map((exp, index) => {
-            const isLeft = index % 2 === 0;
+            // First item (index 0) on right (|_), second on left (_|), third on right (|_)
+            const isLeft = index % 2 === 1;
             return (
               <motion.div
                 key={index}
@@ -75,9 +76,7 @@ export default function Experience() {
 
                 {/* CENTER DOT */}
                 <div className="timeline-center">
-                  <div className="timeline-dot">
-                    <Zap size={14} />
-                  </div>
+                  <div className="timeline-dot" />
                 </div>
 
                 {/* RIGHT CARD */}
@@ -140,20 +139,48 @@ export default function Experience() {
           width: 100%;
           position: relative;
           z-index: 2;
-          margin-bottom: 2rem;
+          margin-bottom: 3rem;
         }
 
         .timeline-side {
           flex: 1;
           min-width: 0;
+          position: relative;
         }
 
         .left-side {
-          padding-right: 2.5rem;
+          padding-right: 3rem;
         }
 
         .right-side {
-          padding-left: 2.5rem;
+          padding-left: 3rem;
+        }
+
+        /* Horizontal Connector Lines (Tree Branches) */
+        .left-side.has-card::after {
+          content: '';
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 3rem; /* connects card edge to center line */
+          height: 2px;
+          background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), var(--accent-purple));
+          z-index: 1;
+          box-shadow: 0 1px 4px rgba(139, 92, 246, 0.2);
+        }
+
+        .right-side.has-card::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 3rem; /* connects center line to card edge */
+          height: 2px;
+          background: linear-gradient(90deg, var(--accent-purple), rgba(139, 92, 246, 0.1));
+          z-index: 1;
+          box-shadow: 0 1px 4px rgba(139, 92, 246, 0.2);
         }
 
         .left-side.empty,
@@ -171,22 +198,19 @@ export default function Experience() {
         }
 
         .timeline-dot {
-          width: 40px;
-          height: 40px;
+          width: 12px;
+          height: 12px;
           border-radius: 50%;
-          background: var(--bg-secondary);
+          background: #ffffff;
           border: 2px solid var(--accent-purple);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 0 15px rgba(139, 92, 246, 0.4), 0 0 30px rgba(139, 92, 246, 0.15);
-          color: var(--accent-purple);
+          box-shadow: 0 0 8px var(--accent-purple), 0 0 15px rgba(139, 92, 246, 0.5);
+          z-index: 3;
           transition: all 0.3s ease;
         }
 
         .timeline-dot:hover {
-          box-shadow: 0 0 25px rgba(139, 92, 246, 0.6), 0 0 50px rgba(139, 92, 246, 0.25);
-          transform: scale(1.1);
+          transform: scale(1.3);
+          box-shadow: 0 0 12px var(--accent-purple), 0 0 25px var(--accent-purple);
         }
 
         .timeline-card {
@@ -262,13 +286,14 @@ export default function Experience() {
           }
           .timeline-row {
             flex-direction: row;
+            margin-bottom: 2rem;
           }
           .timeline-center {
             position: absolute;
             left: 0;
           }
           .timeline-side {
-            padding-left: 60px !important;
+            padding-left: 50px !important;
             padding-right: 0 !important;
           }
           .left-side.empty {
@@ -282,6 +307,20 @@ export default function Experience() {
             visibility: visible;
             flex: 1;
           }
+          
+          /* Adjust connectors on mobile since all cards align to the right of line */
+          .left-side.has-card::after {
+            left: 0;
+            right: auto;
+            width: 30px;
+            background: linear-gradient(90deg, var(--accent-purple), rgba(139, 92, 246, 0.1));
+          }
+          .right-side.has-card::after {
+            left: 0;
+            width: 30px;
+            background: linear-gradient(90deg, var(--accent-purple), rgba(139, 92, 246, 0.1));
+          }
+
           .card-header {
             flex-direction: column;
             gap: 0.75rem;

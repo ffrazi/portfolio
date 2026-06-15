@@ -6,7 +6,8 @@ import {
   addDoc,
   serverTimestamp,
 } from 'firebase/firestore';
-import { db } from './firebase';
+import { db, auth } from './firebase';
+import { signInAnonymously } from 'firebase/auth';
 
 export interface GuestUser {
   name: string;
@@ -28,16 +29,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'aneesazainabf@gmail.com';
 
 async function logVisit(name: string, email: string) {
-  try {
-    await addDoc(collection(db, 'visitLogs'), {
-      name,
-      email,
-      timestamp: serverTimestamp(),
-      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
-    });
-  } catch (e) {
-    console.error('Failed to log visit:', e);
-  }
+  await addDoc(collection(db, 'visitLogs'), {
+    name,
+    email,
+    timestamp: serverTimestamp(),
+    userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+  });
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -70,6 +67,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInGuest = async (name: string, email: string) => {
     try {
+      // Authenticate anonymously first to get write permissions if required by security rules
+      try {
+        await signInAnonymously(auth);
+      } catch (authError) {
+        console.warn('Anonymous auth sign-in failed (make sure it is enabled in Firebase Console):', authError);
+      }
+
       await logVisit(name, email);
       const guestUser: GuestUser = { name, email, isGuest: true };
       localStorage.setItem('guest_user', JSON.stringify(guestUser));
@@ -77,8 +81,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsAllowed(true);
       setIsAdmin(email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
       return { success: true };
-    } catch (error) {
-      return { success: false, error: 'Failed to enter. Please try again.' };
+    } catch (error: any) {
+      console.error('Sign in guest failed:', error);
+      return { 
+        success: false, 
+        error: error?.message || 'Failed to enter. Please try again.' 
+      };
     }
   };
 
