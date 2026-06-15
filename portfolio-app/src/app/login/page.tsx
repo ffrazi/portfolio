@@ -4,19 +4,16 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Loader2, Lock, Mail, Eye, EyeOff, AlertCircle, User as UserIcon } from 'lucide-react';
+import { Loader2, Mail, AlertCircle, User as UserIcon } from 'lucide-react';
 
 export default function LoginPage() {
-  const { user, loading, isAllowed, signInGuest, signInAdmin } = useAuth();
+  const { user, loading, isAllowed, signInGuest } = useAuth();
   const router = useRouter();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [mode, setMode] = useState<'guest' | 'admin'>('guest');
 
   useEffect(() => {
     if (!loading && user && isAllowed) {
@@ -29,18 +26,7 @@ export default function LoginPage() {
     setError('');
     setIsSubmitting(true);
 
-    let result;
-    if (mode === 'guest') {
-      result = await signInGuest(name, email);
-      if (!result.success && result.error?.includes('admin email')) {
-        setMode('admin');
-        setError('Admin email detected. Please enter your password.');
-        setIsSubmitting(false);
-        return;
-      }
-    } else {
-      result = await signInAdmin(password);
-    }
+    const result = await signInGuest(name, email);
 
     if (result.success) {
       router.push('/');
@@ -113,14 +99,11 @@ export default function LoginPage() {
         {/* Header */}
         <div className="card-header">
           <div className="lock-icon-wrapper">
-            {mode === 'guest' ? <UserIcon size={24} /> : <Lock size={24} />}
+            <UserIcon size={24} />
           </div>
-          <h1>{mode === 'guest' ? 'Welcome' : 'Admin Portal'}</h1>
+          <h1>Welcome</h1>
           <p className="subtitle">
-            {mode === 'guest'
-              ? 'Please sign the guestbook to enter the portfolio'
-              : 'Enter your password to access admin features'
-            }
+            Please sign the guestbook to enter the portfolio
           </p>
         </div>
 
@@ -139,55 +122,30 @@ export default function LoginPage() {
 
         {/* Form */}
         <form onSubmit={handleSubmit}>
-          {mode === 'guest' ? (
-            <>
-              <div className="input-group">
-                <UserIcon size={18} className="input-icon" />
-                <input
-                  id="guest-name"
-                  type="text"
-                  placeholder="Your Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  autoComplete="name"
-                />
-              </div>
-              <div className="input-group">
-                <Mail size={18} className="input-icon" />
-                <input
-                  id="guest-email"
-                  type="email"
-                  placeholder="Email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  autoComplete="email"
-                />
-              </div>
-            </>
-          ) : (
-            <div className="input-group">
-              <Lock size={18} className="input-icon" />
-              <input
-                id="admin-password"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Admin Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete="current-password"
-              />
-              <button
-                type="button"
-                className="toggle-password"
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label="Toggle password visibility"
-              >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
-          )}
+          <div className="input-group">
+            <UserIcon size={18} className="input-icon" />
+            <input
+              id="guest-name"
+              type="text"
+              placeholder="Your Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              autoComplete="name"
+            />
+          </div>
+          <div className="input-group">
+            <Mail size={18} className="input-icon" />
+            <input
+              id="guest-email"
+              type="email"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+          </div>
 
           <button
             type="submit"
@@ -196,23 +154,11 @@ export default function LoginPage() {
           >
             {isSubmitting ? (
               <Loader2 size={18} className="spin" />
-            ) : mode === 'guest' ? (
-              'Enter Portfolio'
             ) : (
-              'Login'
+              'Enter Portfolio'
             )}
           </button>
         </form>
-
-        {/* Toggle mode */}
-        <div className="mode-toggle">
-          <button
-            type="button"
-            onClick={() => { setMode(mode === 'guest' ? 'admin' : 'guest'); setError(''); }}
-          >
-            {mode === 'guest' ? 'Admin Login' : 'Back to Guest Access'}
-          </button>
-        </div>
       </motion.div>
 
       <style jsx>{`
@@ -334,47 +280,11 @@ export default function LoginPage() {
           color: rgba(156, 163, 175, 0.6);
         }
 
-        .toggle-password {
-          position: absolute;
-          right: 1rem;
-          background: none;
-          border: none;
-          color: var(--text-secondary);
-          cursor: pointer;
-          padding: 0;
-          display: flex;
-        }
-
-        .toggle-password:hover {
-          color: var(--text-primary);
-        }
-
         .submit-btn {
           width: 100%;
           padding: 0.9rem;
           margin-top: 0.5rem;
           font-size: 1rem;
-        }
-
-        .mode-toggle {
-          text-align: center;
-          margin-top: 1.5rem;
-          font-size: 0.85rem;
-        }
-
-        .mode-toggle button {
-          background: none;
-          border: none;
-          color: var(--text-secondary);
-          cursor: pointer;
-          font-size: 0.85rem;
-          opacity: 0.7;
-          transition: opacity 0.2s;
-        }
-
-        .mode-toggle button:hover {
-          opacity: 1;
-          text-decoration: underline;
         }
 
         .spin {

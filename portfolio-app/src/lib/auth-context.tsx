@@ -2,17 +2,11 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  User,
-} from 'firebase/auth';
-import {
   collection,
   addDoc,
   serverTimestamp,
 } from 'firebase/firestore';
-import { auth, db } from './firebase';
+import { db } from './firebase';
 
 export interface GuestUser {
   name: string;
@@ -21,12 +15,11 @@ export interface GuestUser {
 }
 
 interface AuthContextType {
-  user: User | GuestUser | null;
+  user: GuestUser | null;
   loading: boolean;
   isAllowed: boolean;
   isAdmin: boolean;
   signInGuest: (name: string, email: string) => Promise<{ success: boolean; error?: string }>;
-  signInAdmin: (password: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
 }
 
@@ -48,7 +41,7 @@ async function logVisit(name: string, email: string) {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | GuestUser | null>(null);
+  const [user, setUser] = useState<GuestUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAllowed, setIsAllowed] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -63,53 +56,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch(e) {}
     }
 
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser?.email === ADMIN_EMAIL) {
-        setUser(firebaseUser);
-        setIsAllowed(true);
-        setIsAdmin(true);
-      } else if (initialGuest) {
-        setUser(initialGuest);
-        setIsAllowed(true);
-        setIsAdmin(false);
-      } else {
-        setUser(null);
-        setIsAllowed(false);
-        setIsAdmin(false);
-      }
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    if (initialGuest) {
+      setUser(initialGuest);
+      setIsAllowed(true);
+      setIsAdmin(initialGuest.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
+    } else {
+      setUser(null);
+      setIsAllowed(false);
+      setIsAdmin(false);
+    }
+    setLoading(false);
   }, []);
 
   const signInGuest = async (name: string, email: string) => {
     try {
-      if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-         return { success: false, error: 'This is the admin email. Please use the admin login.' };
-      }
       await logVisit(name, email);
       const guestUser: GuestUser = { name, email, isGuest: true };
       localStorage.setItem('guest_user', JSON.stringify(guestUser));
       setUser(guestUser);
       setIsAllowed(true);
+      setIsAdmin(email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
       return { success: true };
     } catch (error) {
       return { success: false, error: 'Failed to enter. Please try again.' };
     }
   };
 
-  const signInAdmin = async (password: string) => {
-    try {
-      await signInWithEmailAndPassword(auth, ADMIN_EMAIL, password);
-      return { success: true };
-    } catch (error: any) {
-      return { success: false, error: 'Invalid admin credentials.' };
-    }
-  };
-
   const signOutUser = async () => {
-    await firebaseSignOut(auth);
     localStorage.removeItem('guest_user');
     setUser(null);
     setIsAllowed(false);
@@ -117,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAllowed, isAdmin, signInGuest, signInAdmin, signOut: signOutUser }}>
+    <AuthContext.Provider value={{ user, loading, isAllowed, isAdmin, signInGuest, signOut: signOutUser }}>
       {children}
     </AuthContext.Provider>
   );
