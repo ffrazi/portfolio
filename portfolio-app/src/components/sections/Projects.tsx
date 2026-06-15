@@ -11,21 +11,21 @@ export default function Projects() {
       tag: "🏆 Winner, DevRiot 2025",
       description: "An advanced RAG-based legal assistance system. Employs LangChain and optimized vector indexing to query legal documents and render contextual responses through an interactive interface.",
       tech: ["Python", "Flask", "LangChain", "VectorDB", "RAG", "SQLite"],
-      github: "https://github.com/ffrazi",
+      github: "https://github.com/ffrazi/copbot",
     },
     {
       title: "OrganChain",
       tag: "🥈 Finalist, Hacksagon 2026",
       description: "A decentralized, immutable ledger system for tracking and registering organ donation queues, ensuring transparency and reducing allocation tampering.",
       tech: ["Java", "Spring Boot", "Flask", "Ethereum", "Docker", "Vercel"],
-      github: "https://github.com/ffrazi",
+      github: "https://github.com/ffrazi/organchain",
     },
     {
       title: "PHI Masking API",
       tag: "API Services",
       description: "A high-performance security API designed to scan and mask Protected Health Information (PHI) in text streams, leveraging custom NLP pipelines and strict regex rules.",
       tech: ["Python", "FastAPI", "NLP", "Regex", "Security"],
-      github: "https://github.com/ffrazi",
+      github: "https://github.com/ffrazi/masking_api",
     },
     {
       title: "Real-Time Emotion Recognition",
@@ -33,6 +33,13 @@ export default function Projects() {
       description: "A machine learning application utilizing computer vision models to classify human facial expressions in real-time streams with approximately 92% classification accuracy.",
       tech: ["Python", "OpenCV", "TensorFlow", "Keras", "Dlib"],
       github: "https://github.com/ffrazi",
+    },
+    {
+      title: "Qurve Project",
+      tag: "Data Modeling",
+      description: "An automated quantitative curve evaluation system designed to analyze growth and fluorescence time-series datasets, featuring robust mathematical fitting and visualization dashboards.",
+      tech: ["Python", "Pandas", "Matplotlib", "FastAPI", "Statistics"],
+      github: "https://github.com/ffrazi/Qurve-Project",
     },
   ];
 
